@@ -1,9 +1,15 @@
 var date = new Date()
+
+const users = [{
+    user: "max"
+},{user: "rayo"}];
+
 const status = {
     ok: 200,
     notFound: 404,
     badRequest: 400
 }
+
 var ModelHandler = {
 
     helloWorld: function (req, res) {
@@ -49,9 +55,23 @@ var ModelHandler = {
             res.status(status.badRequest).send(msg);
         } else {
             const result = factorial(req.params.num);
-            res.status(status.ok).send(result);
+            res.status(status.ok).send({factorial: result});
         }
+    },
+
+    create: (req,res) => {
+        const user = req.body;
+        user.id = users.length + 1;
+        users.push(user);
+        res.status(status.ok).send(users)
+    },
+
+    getRandomNumber: (req, res) => {
+        const nNumber = Math.round(Math.random() * Number.parseInt(req.params.num));
+        res.status(status.ok).send({ Number: nNumber });
     }
+
+
 }
 
 function multiplicar(x) {
@@ -63,10 +83,12 @@ function multiplicar(x) {
 }
 
 function factorial(x) {
-    if (x === 0) {
+    if (x === 0 || x=== 1) {
         return 1;
+    }else{
+        return x * factorial(x - 1);
     }
-    return x * factorial(x - 1);
+    
 }
 
 
