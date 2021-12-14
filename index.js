@@ -7,8 +7,10 @@ const app = express();
 const Routes = require('./Routes/routes');
 
 const connect = require('./database/database');
-
+const ModelHandler = require('./controllers/ModelHandler');
 connect.createConnection()
+
+app.get("/", ModelHandler.getDateActualMil)
 
 
 app.use(cors());
